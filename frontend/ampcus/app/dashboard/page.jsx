@@ -4,9 +4,9 @@ import React from 'react'
 
 function Dashboard() {
     return (
-        <div className='flex'>
-            <div className='w-[20%]'> <Sidebar /> </div>
-            <div className='w-[80%]'><FetchMembers /></div>
+        <div className='flex h-screen '>
+            <div className='hidden md:block md:w-[15%] mt-1'> <Sidebar /> </div>
+            <div className='w-[100%] md:w-[85%]  mt-1 '><FetchMembers /></div>
         </div>
     )
 }

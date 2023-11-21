@@ -10,7 +10,9 @@ class Portfolio(models.Model):
 
 
 class Executive(models.Model):
-    name = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    name = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, related_name="executives"
+    )
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
 
     def __str__(self):

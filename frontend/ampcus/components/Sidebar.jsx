@@ -9,20 +9,15 @@ function Sidebar() {
 
     const handleLoanRequestToggle = () => { setLoanrequest(!loanrequest) }
     return (
-        <>
-            <div className="mb-4 flex flex-row items-center"><AiFillDashboard size='30px' color="white" /><Link href='/dashboard' className="hidden lg:block ml-2 text-white font-black">Dashboard</Link></div>
-            <button onClick={handleLoanRequestToggle} className="mb-2 flex flex-row items-center"><AiFillSchedule size='30px' color="white" /><p className="hidden lg:block ml-2 text-white font-bold">Loan Request</p>
-            </button>
-            {loanrequest ? <ul className="hidden lg:block ml-10">
-                <li className="text-white font-medium pb-2"><Link href='/loan/jumbo'>Jumbo Loan</Link></li>
-                <li className="text-white font-medium pb-2"><Link href='/loan/emergency'>Emergency Loan</Link></li>
-                <li className="text-white font-medium pb-2"><Link href='/loan/education'>Education Loan</Link></li>
+        <div className='bg-gray-800 h-screen flex flex-col pl-2'>
+            <div className="mb-4 pt-8 flex flex-row items-center"><AiFillDashboard size='20px' color="white" /><Link href='/dashboard' className=" ml-2 text-white font-black">Dashboard</Link></div>
+            <div className="mb-2 pt-8 cursor-pointer flex flex-row items-center"><AiFillSchedule size='20px' color="white" /><Link href='/loan/request' className=" ml-2 text-white font-bold">Loan Request</Link>
+            </div>
+            <div className="mb-2 pt-8 cursor-pointer flex flex-row items-center"><AiFillSchedule size='20px' color="white" /><Link href='/loan/repayment' className=" ml-2 text-white font-bold">Loan Repayment</Link> </div>
+            <div className="mb-4 pt-8  flex flex-row items-center"><MdChangeCircle size='20px' color="white" /><Link href='/change-contribution' className="  lg:block ml-2 text-white font-bold ">Change Contribution</Link></div>
+            <div className="mb-4 pt-8  flex flex-row items-center"><AiFillSchedule size='20px' color="white" /><a className=" ml-2 text-white font-bold">Request Approval</a></div>
 
-            </ul> : <ul className="hidden lg:block ml-4"></ul>}
-            <div className="mb-4 flex flex-row items-center"><MdChangeCircle size='30px' color="white" /><Link href='/change-contribution' className=" hidden lg:block ml-2 text-white font-bold ">Change Contribution</Link></div>
-            <div className="mb-4 flex flex-row items-center"><AiFillSchedule size='30px' color="white" /><a className="hidden lg:block ml-2 text-white font-bold">Request Approval</a></div>
-
-        </>
+        </div>
     )
 }
 

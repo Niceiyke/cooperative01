@@ -88,6 +88,9 @@ def check_loan_eligibility(member_object, selected_loan_type, requested_amount):
         loan_max_limit = initial_balance * loan_max_limit_multiplier
         borrowable_max_loan_limit = loan_max_limit - existing_total_loan
 
+        if requested_amount <= 10000:
+            raise ValueError("Loan amount must be greater than 10000")
+
         if interest_adjusted_amount > borrowable_max_loan_limit:
             raise InsufficientBalanceError(
                 "Insufficient balance for the requested loan amount",
@@ -95,6 +98,8 @@ def check_loan_eligibility(member_object, selected_loan_type, requested_amount):
             )
 
         return {"amount": interest_adjusted_amount, "status": True}
+    except ValueError as e:
+        return {"status": HttpStatus.BAD_REQUEST, "error": str(e)}
 
     except InsufficientBalanceError as e:
         return {"status": 400, "error": str(e)}
@@ -107,9 +112,7 @@ def check_loan_eligibility(member_object, selected_loan_type, requested_amount):
         return {"status": 500, "error": "Internal Server Error"}
 
 
-def process_loan_transaction(
-    member_object, transaction_amount, transaction_type, loan_status
-):
+def process_loan_transaction(member_object, transaction_amount, transaction_type):
     """
     Process a loan transaction for a member.
 
@@ -133,8 +136,6 @@ def process_loan_transaction(
                 member_object.total_loan -= transaction_amount
             else:
                 member_object.total_loan += transaction_amount
-
-                loan_status = True
 
             member_object.save()
 

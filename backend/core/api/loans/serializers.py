@@ -31,6 +31,11 @@ class LoanSerializers(serializers.ModelSerializer):
             "loan_types",
         ]
 
+        extra_kwargs = {
+            "repaid_amount": {"read_only": True},
+            "is_active": {"read_only": True},
+        }
+
     def get_owner(self, obj):
         owner = f"{obj.member.user.first_name} {obj.member.user.last_name}"
         return owner
@@ -47,15 +52,13 @@ class LoanSerializers(serializers.ModelSerializer):
         )
 
         if response["status"] == True:
+            print(validated_data)
             process_loan_transaction(
-                transaction_amount=response["borrowed_amount"],
+                transaction_amount=validated_data["borrowed_amount"],
                 member_object=validated_data["member"],
                 transaction_type="Debit",
-                loan_status=validated_data["is_active"],
             )
             response = super().create(validated_data)
-            response.is_active = True
-
             response.save()
             return response
 

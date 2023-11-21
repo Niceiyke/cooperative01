@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply bg-primary-bg overflow-y-scroll no-scrollbar
+  /* @apply overflow-y-scroll no-scrollbar*/
 }
 
 @layer utilities {
@@ -50,6 +50,6 @@ button {
   @apply rounded-lg bg-primary-bg p-4 text-lg font-bold
 }
 
-input {
+input, select {
   @apply w-full p-2 border text-gray-900 border-gray-300 rounded focus:outline-none
 }

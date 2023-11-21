@@ -1,10 +1,14 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view
 from rest_framework import generics, status
 from django.shortcuts import get_object_or_404
+from django.core.mail import send_mail
 
 from loans.models import Loan
 from transaction.models import Transaction
+from managements.models import Executive
+from members.models import Member
 from api.loans.serializers import LoanSerializers
 
 from .serializes import LoanApprovalSerializers
@@ -20,7 +24,7 @@ class LoanDetailView(APIView):
         president_approved = loan.is_president_approved
         petron_approved = loan.is_petron_approved
 
-        res = {
+        data = {
             "owner": owner,
             "loan_type": loan_type,
             "requested_loan_amount": amount,
@@ -29,7 +33,7 @@ class LoanDetailView(APIView):
             "petron_approved": petron_approved,
         }
 
-        serializer = LoanApprovalSerializers(res)
+        serializer = LoanApprovalSerializers(data)
 
         return Response(serializer.data)
 
@@ -53,3 +57,54 @@ class AccountBalances(APIView):
                 "active_loan_balance": active_loan_balance,
             }
         )
+
+
+@api_view(["POST"])
+def send_Executive_Mail(request):
+    queryset = Executive.objects.all()
+    exco_mail_list = [entry.name.email for entry in queryset]
+
+    subject = request.data["subject"]
+    message = request.data["message"]
+    from_email = request.data["from"]
+    recipient_list = exco_mail_list
+
+    send_mail(subject, message, from_email, recipient_list)
+
+    return Response(
+        {
+            "message": f"{len(exco_mail_list)} mails sent succeffully",
+            "status": status.HTTP_200_OK,
+        }
+    )
+
+
+@api_view(["POST"])
+def send_Members_Mail(request):
+    queryset = Member.objects.all()
+    exco_mail_list = [entry.user.email for entry in queryset]
+
+    subject = request.data["subject"]
+    message = request.data["message"]
+    from_email = request.data["from"]
+    recipient_list = exco_mail_list
+
+    send_mail(subject, message, from_email, recipient_list)
+
+    return Response(
+        {
+            "message": f"{len(exco_mail_list)} mails sent succeffully",
+            "status": status.HTTP_200_OK,
+        }
+    )
+
+
+@api_view(["POST"])
+def send_Personal_mail(request):
+    subject = request.data["subject"]
+    message = request.data["message"]
+    from_email = request.data["from"]
+    to_email = request.data["to"]
+    send_mail(subject, message, from_email, to_email)
+
+    return Response({"message": "mail sent succeffully", "status": status.HTTP_200_OK})

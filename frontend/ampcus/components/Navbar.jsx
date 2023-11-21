@@ -5,7 +5,7 @@ function Navbar() {
     const user = false
 
     return (
-        <nav>
+        <nav className='flex justify-between items-center bg-slate-900 text-primary-text p-2'>
             <h1><Link href='/'>Logo</Link></h1>
             {
                 user ? (

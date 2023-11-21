@@ -4,6 +4,7 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+
 from .auth import views as authviews
 from .member import views as memberviews
 from .transaction import views as transactionviews
@@ -24,16 +25,11 @@ urlpatterns = [
     # Loan Urls
     path("loans/", loanviews.ListCreateLoanView.as_view()),
     path("loan-repayment/", loanviews.ListCreateLoanRepaymentView.as_view()),
-    path(
-        "approve-loan/<int:pk>/",
-        loanviews.LoanApprovalAPIView.as_view(),
-    ),
-    path(
-        "loan-detail/<int:pk>/",
-        managementvies.LoanDetailView.as_view(),
-    ),
-    path(
-        "all-contribution/",
-        managementvies.AccountBalances.as_view(),
-    ),
+    path("approve-loan/<int:pk>/", loanviews.LoanApprovalAPIView.as_view()),
+    # Managementsurls
+    path("loan-detail/<int:pk>/", managementvies.LoanDetailView.as_view()),
+    path("all-contribution/", managementvies.AccountBalances.as_view()),
+    path("send-exco-mail/", managementvies.send_Executive_Mail),
+    path("send-members-mail/", managementvies.send_Members_Mail),
+    path("send-personal-mail/", managementvies.send_Personal_mail),
 ]
