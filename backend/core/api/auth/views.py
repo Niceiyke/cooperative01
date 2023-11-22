@@ -25,7 +25,7 @@ class RegisterUserView(generics.CreateAPIView):
 
 
 class LoginUserView(APIView):
-    permission_classes = [AllowAny]
+    # permission_classes = [AllowAny]
 
     def post(self, request):
         user = CustomUser.objects.filter(email=request.data["email"]).first()
@@ -48,7 +48,7 @@ class LoginUserView(APIView):
             user=user, action=f"User {user.last_name} just logged in"
         )
 
-        # response.data = {"access": token["access"], "refresh": token["refresh"]}
+        response.data = {"access": token["access"], "refresh": token["refresh"]}
 
         return response
 

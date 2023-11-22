@@ -1,6 +1,7 @@
 "use client"
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useUser } from '@/context/useUser';
 
 // InputField component
 const InputField = ({ label, id, type, value, onChange, placeholder, required }) => (
@@ -20,6 +21,8 @@ const InputField = ({ label, id, type, value, onChange, placeholder, required })
 );
 
 const Login = () => {
+    const { user } = useUser()
+    console.log('first', user)
     const navigate = useRouter()
     const [formData, setFormData] = useState({
         email: '',
@@ -43,9 +46,9 @@ const Login = () => {
             });
 
             if (response.ok) {
-
+                console.log(await response.json())
                 console.log('Login successful');
-                navigate.push('/dashboard')
+                //navigate.push('/dashboard')
             } else {
 
                 // Handle Login failure
