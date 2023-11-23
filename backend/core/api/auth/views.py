@@ -78,5 +78,3 @@ class UserView(APIView):
             )
         except jwt.ExpiredSignatureError:
             raise AuthenticationFailed("Unauthorised")
-
-        return Response({"message": "success"})
