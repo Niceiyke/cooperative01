@@ -138,9 +138,13 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 AUTH_USER_MODEL = "accounts.CustomUser"
-CORS_ALLOW_ALL_ORIGINS: True
-CORS_ALLOW_CREDENTIALS: True
-CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+
+#CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
+
+
 
 
 REST_FRAMEWORK = {
@@ -160,6 +164,9 @@ SIMPLE_JWT = {
     "ALGORITHM": "HS256",
     "SIGNING_KEY": SECRET_KEY,
     "TOKEN_OBTAIN_SERIALIZER": "api.serializers.MyTokenObtainPairSerializer",
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'TOKEN_COOKIE_SECURE': True,
+    'TOKEN_COOKIE_HTTPONLY': True,
 }
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

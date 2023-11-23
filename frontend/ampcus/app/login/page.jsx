@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/context/useUser';
+import { encryptData } from '@/utiils/encryptdycrpt';
 
 // InputField component
 const InputField = ({ label, id, type, value, onChange, placeholder, required }) => (
@@ -21,45 +22,51 @@ const InputField = ({ label, id, type, value, onChange, placeholder, required })
 );
 
 const Login = () => {
-    const { user } = useUser()
-    console.log('first', user)
+    const { user, setAccessToken } = useUser()
     const navigate = useRouter()
+  
+
+
     const [formData, setFormData] = useState({
         email: '',
         password: '',
     });
 
     const handleChange = (e) => {
+       
         setFormData({ ...formData, [e.target.id]: e.target.value });
     };
 
     const handleLogin = async (e) => {
+
         e.preventDefault();
+        
 
         try {
             const response = await fetch('http://127.0.0.1:8000/api/login/', {
 
                 method: 'POST',
+
                 headers: { 'Content-Type': 'application/json' },
+
                 credentials: 'include',
+                
                 body: JSON.stringify(formData),
             });
 
             if (response.ok) {
+                const token = await response.json()
+                const access_token= token.access
 
-                const response = await fetch('http://127.0.0.1:8000/api/user/', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                encryptData('access',access_token)
 
-                    credentials: 'include'
+                setAccessToken(access_token)
+                //console.log(access_token)
 
-                });
 
-                console.log(await response.json())
+       
                 console.log('Login successful');
-                //navigate.push('/dashboard')
+                navigate.push('/dashboard')
             } else {
 
                 // Handle Login failure

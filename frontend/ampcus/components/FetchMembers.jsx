@@ -1,22 +1,20 @@
-//'use client'
+'use client'
 import Image from 'next/image'
 import React from 'react'
 import pix from '@/static/images/DSC_0309.JPG'
+import { useUser } from '@/context/useUser'
 
 async function FetchMembers() {
+    const { accessToken }=useUser()
+    console.log(accessToken)
     const res = await fetch('http://127.0.0.1:8000/api/member/2', { cache: 'no-cache' })
-
     const member = await res.json()
-
-
-    console.log(member)
-
 
     if (res.ok) {
 
-        //const member = await res.json()
+       
 
-        //console.log(member)
+        console.log(member)
 
     }
     else {
