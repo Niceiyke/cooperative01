@@ -3,28 +3,17 @@ import Image from 'next/image'
 import React from 'react'
 import pix from '@/static/images/DSC_0309.JPG'
 import { useUser } from '@/context/useUser'
+import { axiosInstance } from '@/utils/axiosInstance'
 
 async function FetchMembers() {
-    const { accessToken }=useUser()
-    console.log(accessToken)
-    const res = await fetch('http://127.0.0.1:8000/api/member/2', { cache: 'no-cache' })
-    const member = await res.json()
+    const { accessToken } = useUser()
 
-    if (res.ok) {
+    const response = await axiosInstance.get('/member/2')
 
-       
-
-        console.log(member)
-
-    }
-    else {
-        console.log('res')
-    }
-
-
+    const member = response.data
     return (
         <div>
-            {
+            {member.id &&
                 <div className='mt-2 bg-primary h-screen '>
                     <div className='flex flex-col items-center '>
                         <Image src={pix} width={150} height={200} alt='profile picture' className='mx-auto rounded-md' />

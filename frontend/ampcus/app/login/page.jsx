@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/context/useUser';
-import { encryptData } from '@/utiils/encryptdycrpt';
+import { encryptData } from '@/utils/encryptdycrpt';
 
 // InputField component
 const InputField = ({ label, id, type, value, onChange, placeholder, required }) => (
@@ -24,7 +24,7 @@ const InputField = ({ label, id, type, value, onChange, placeholder, required })
 const Login = () => {
     const { user, setAccessToken } = useUser()
     const navigate = useRouter()
-  
+
 
 
     const [formData, setFormData] = useState({
@@ -33,14 +33,14 @@ const Login = () => {
     });
 
     const handleChange = (e) => {
-       
+
         setFormData({ ...formData, [e.target.id]: e.target.value });
     };
 
     const handleLogin = async (e) => {
 
         e.preventDefault();
-        
+
 
         try {
             const response = await fetch('http://127.0.0.1:8000/api/login/', {
@@ -50,21 +50,21 @@ const Login = () => {
                 headers: { 'Content-Type': 'application/json' },
 
                 credentials: 'include',
-                
+
                 body: JSON.stringify(formData),
             });
 
             if (response.ok) {
                 const token = await response.json()
-                const access_token= token.access
+                const access_token = token.access
 
-                encryptData('access',access_token)
+                encryptData('access', access_token)
 
                 setAccessToken(access_token)
                 //console.log(access_token)
 
 
-       
+
                 console.log('Login successful');
                 navigate.push('/dashboard')
             } else {
