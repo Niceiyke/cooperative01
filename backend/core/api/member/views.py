@@ -12,6 +12,7 @@ from members.models import Member
 
 
 class MemberView(generics.RetrieveAPIView):
+    authentication_classes = ()
     queryset = Member.objects.all()
     serializer_class = MemberSerializer
     # permission_classes = [IsAuthenticated]

@@ -10,7 +10,7 @@ export const axiosInstance = axios.create({
     headers: {
         //Authorization: `Bearer `,
         'Content-Type': 'application/json',
-        //"Authorization": `Bearer `
+        "Authorization": `Bearer `
     },
     //withCredentials: true
 });
