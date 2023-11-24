@@ -25,6 +25,7 @@ class RegisterUserView(generics.CreateAPIView):
 
 
 class LoginUserView(APIView):
+    authentication_classes = ()
     # permission_classes = [AllowAny]
 
     def post(self, request):
@@ -57,7 +58,7 @@ class UserView(APIView):
     def get(self, request):
         load_dotenv()
         token = request.COOKIES.get("access")
-        print('token:',token)
+        print("token:", token)
 
         if not token:
             raise AuthenticationFailed("Unauthenticated")
