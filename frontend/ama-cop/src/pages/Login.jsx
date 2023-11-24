@@ -1,8 +1,10 @@
-"use client"
+
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useUser } from '@/context/useUser';
-import { encryptData } from '@/utils/encryptdycrpt';
+
+
+import { useUser } from '../hooks/useUser';
+import { encryptData } from '../utils/encryptdycrpt';
+import { useNavigate } from 'react-router-dom';
 
 // InputField component
 const InputField = ({ label, id, type, value, onChange, placeholder, required }) => (
@@ -22,8 +24,9 @@ const InputField = ({ label, id, type, value, onChange, placeholder, required })
 );
 
 const Login = () => {
-    const  {setAccessToken } = useUser()
-    const navigate = useRouter()
+    const { setAccessToken } = useUser()
+    
+   const navigate = useNavigate()
 
 
 
@@ -68,7 +71,7 @@ const Login = () => {
 
 
                 console.log('Login successful');
-                navigate.push('/dashboard')
+                navigate('/dashboard')
             } else {
 
                 // Handle Login failure

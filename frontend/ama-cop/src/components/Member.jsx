@@ -1,28 +1,33 @@
-'use client'
-import Image from 'next/image'
-import React, { useState } from 'react'
-import pix from '@/static/images/DSC_0309.JPG'
-import { axiosInstance } from '@/utils/axiosInstance'
+import React, { useEffect, useState } from 'react'
+
+import { axiosInstance } from '../utils/axiosInstance'
+
 
 async function FetchMembers() {
-    const [member,setMember]=useState(null)
+    const [member, setMember] = useState(null)
 
-    const response = await axiosInstance.get('/member/2')
+    useEffect(()=>{
 
-    if (response.status==200){
-        setMember(response.data) 
-    }
-    else{
-        console.log(response.data)
-    }
 
-    
+        const response = axiosInstance.get('/member/2')
+        console.log(response)
+
+        if (response.status == 200) {
+            console.log(response.data)
+            setMember(response.data)
+        }
+        else {
+            console.log(response.data)
+        }
+    },[])
+
+
     return (
         <div>
-            {member.id &&
+            {member?.id &&
                 <div className='mt-2 bg-primary h-screen '>
                     <div className='flex flex-col items-center '>
-                        <Image src={pix} width={150} height={200} alt='profile picture' className='mx-auto rounded-md' />
+                      
                         <h3 className=''><span>Location:</span><span className='pl-1'>{member.location}</span></h3>
                     </div>
                     <div className='mt-8 mx-2 flex flex-1 justify-between bg-gray-200  px-2'>

@@ -8,7 +8,9 @@ from django.core.mail import send_mail
 @receiver(post_save, sender=CustomUser)
 def create_member_profile(sender, instance, created, **kwargs):
     if created:
-        Member.objects.create(user=instance)
+        member=Member.objects.create(user=instance)
+        member.save()
+
 
 
 @receiver(post_save, sender=CustomUser)

@@ -7,7 +7,7 @@ from accounts.models import CustomUser
 
 class Member(models.Model):
     user = models.OneToOneField(
-        CustomUser, on_delete=models.CASCADE, related_name="members"
+        CustomUser, on_delete=models.CASCADE, related_name="member"
     )
     monthly_contribution = models.IntegerField(blank=True, null=True)
     phone_number = models.IntegerField(blank=True, null=True)

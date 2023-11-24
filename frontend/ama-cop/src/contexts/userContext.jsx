@@ -1,14 +1,13 @@
-'use client'
-import decryptData  from '@/utils/encryptdycrpt'
 import React from 'react'
 import { createContext, useState } from 'react'
+import decryptData from '../utils/encryptdycrpt'
 
 
 
 export const userContext = createContext(null)
 
 
-function LoginProvider({ children }) {
+function AccessProvider({ children }) {
     const [user, setUser] = useState([{ id: '', email: '', firstName: '', lastName: '' }])
 
     const [accessToken, setAccessToken] = useState(decryptData('access'))
@@ -24,5 +23,5 @@ function LoginProvider({ children }) {
     )
 }
 
-export default LoginProvider
+export default AccessProvider
 
