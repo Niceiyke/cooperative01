@@ -46,6 +46,10 @@ const useFetchGet = () => {
 
     const originalRequest = async (url, formdata) => {
         const url2 = `${BASEURL}${url}`
+
+        let error 
+        let data
+
         const response = await fetch(url2, {
             method: 'POST',
             headers: {
@@ -55,9 +59,32 @@ const useFetchGet = () => {
             body: JSON.stringify(formdata)
         })
 
-        const data = await response.json()
 
-        return { response, data }
+        if (response.status == 400) {
+            error = await response.json()
+            console.log('error1',error)
+
+            return { response, data, error }
+
+        }
+        if (response.status == 401) {
+            error = await response.json()
+            console.log('error2', error)
+
+
+            return { response, data, error }
+
+        }
+
+       else{
+            data = await response.json()
+            console.log(data)
+
+            return { response, data, error }
+
+        }
+
+
     }
 
 

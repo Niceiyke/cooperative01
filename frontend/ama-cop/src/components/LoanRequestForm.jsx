@@ -28,7 +28,7 @@ function LoanRequestForm() {
     const [formData, setFormData] = useState({
         borrowed_amount: '',
         loan_type: '',
-        member: auth?.user?.user_id
+        member: auth?.user?.member
     });
 
 
@@ -58,13 +58,20 @@ function LoanRequestForm() {
             formData['loan_type'] = 5
         }
 
-        const { response, data } = await api('/loans/', formData)
-        if (response.status == 200) {
-            console.log('awesdrtfyuiop')
-            navigate('/dashboard')
+        const response = await api('/loans/', formData)
 
+       if( response.response.status===400){
+           console.log(response.error)
+        setError(response.error[0])
+       }
+        if (response.response.status===401) {
+            setError(response.error[0])
         }
-
+        if (response.response.status === 201) {
+            console.log(response.data)
+            console.log('dataerr',response.error)
+            navigate('/dashboard')
+        }
 
 
     };

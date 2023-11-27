@@ -6,10 +6,9 @@ import { useAuth } from '../hooks/useAuth'
 function FetchMembers() {
     const auth = useAuth()
     const api = useFetchGet()
-    console.log(auth.user)
 
     const fetchMembers = async () => {
-        const response = await api(`/member/${auth?.user?.member?.id}`)
+        const response = await api(`/member/${auth?.user?.member}`)
         return response
     }
 

@@ -92,9 +92,8 @@ def check_loan_eligibility(member_object, selected_loan_type, requested_amount):
             raise ValueError("Loan amount must be greater than 10000")
 
         if interest_adjusted_amount > borrowable_max_loan_limit:
-            raise InsufficientBalanceError(
-                "Insufficient balance for the requested loan amount",
-                f"The maximum you can borrow at this time is: NGN {borrowable_max_loan_limit - (borrowable_max_loan_limit * interest_rate)}",
+            raise ValueError(
+                f"Insufficient balance for the requested loan amount.The maximum you can borrow at this time is: NGN {borrowable_max_loan_limit - (borrowable_max_loan_limit * interest_rate)}",
             )
 
         return {"amount": interest_adjusted_amount, "status": True}

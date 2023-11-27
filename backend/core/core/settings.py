@@ -161,10 +161,11 @@ SIMPLE_JWT = {
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ALGORITHM": "HS256",
     "SIGNING_KEY": SECRET_KEY,
-    "TOKEN_OBTAIN_SERIALIZER": "api.serializers.MyTokenObtainPairSerializer",
+    "TOKEN_OBTAIN_SERIALIZER": "api.auth.serializers.MyTokenObtainPairSerializer",
     "AUTH_HEADER_TYPES": ("Bearer",),
     "TOKEN_COOKIE_SECURE": True,
     "TOKEN_COOKIE_HTTPONLY": True,
 }
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+

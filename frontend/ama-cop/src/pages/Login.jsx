@@ -25,6 +25,7 @@ const InputField = ({ label, id, type, value, onChange, placeholder, required })
 
 const Login = () => {
     const { setAccessToken, setRefreshToken, setUser } = useAuth()
+    const [error,setError]=useState()
 
     const navigate = useNavigate()
 
@@ -36,6 +37,7 @@ const Login = () => {
     });
 
     const handleChange = (e) => {
+        setError('')
 
         setFormData({ ...formData, [e.target.id]: e.target.value });
     };
@@ -46,7 +48,7 @@ const Login = () => {
 
 
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/login/', {
+            const response = await fetch('http://127.0.0.1:8000/api/token/', {
 
                 method: 'POST',
 
@@ -70,13 +72,17 @@ const Login = () => {
                 setUser(data)
                 setAccessToken(access_token)
                 setRefreshToken(refresh_token)
-                //console.log(access_token)
+    
                 console.log('Login successful');
                 navigate('/dashboard')
             } else {
 
                 // Handle Login failure
+                setError('Incorrect email or password')
                 console.error('Login failed');
+                throw new Error('some message')
+
+                
             }
         } catch (error) {
             console.error('Error during Login:', error);
@@ -87,6 +93,7 @@ const Login = () => {
         <div className="flex justify-center items-center h-screen">
             <div className="bg-slate-800 p-8 rounded shadow-md text-white w-full sm:w-96">
                 <h2 className="text-2xl font-semibold mb-4 text-center">Login</h2>
+                <p className='text-red-500 font-extralight text-center'>{error}</p>
                 <form onSubmit={handleLogin}>
                     <InputField
                         label="Email"
