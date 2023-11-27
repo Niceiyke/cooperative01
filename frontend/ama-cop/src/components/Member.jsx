@@ -1,33 +1,35 @@
 import React, { useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import useFetchGet from '../hooks/useFetchGet'
+import { useAuth } from '../hooks/useAuth'
 
-import { axiosInstance } from '../utils/axiosInstance'
+function FetchMembers() {
+    const auth = useAuth()
+    const api = useFetchGet()
+    console.log(auth.user)
 
+    const fetchMembers = async () => {
+        const response = await api(`/member/${auth?.user?.member?.id}`)
+        return response
+    }
 
-async function FetchMembers() {
-    const [member, setMember] = useState(null)
+    const { data: member, isLoading, isError, error } = useQuery({ queryKey: ['member'], queryFn: () => fetchMembers() })
 
-    useEffect(()=>{
+    if (isLoading) {
+        return (<div>Loading</div>)
+    }
 
-
-        const response = axiosInstance.get('/member/2')
-        console.log(response)
-
-        if (response.status == 200) {
-            console.log(response.data)
-            setMember(response.data)
-        }
-        else {
-            console.log(response.data)
-        }
-    },[])
-
+    if (isError) {
+        return (<p>error occured {error.message}</p>)
+    }
 
     return (
         <div>
-            {member?.id &&
+            {
+                member?.id &&
                 <div className='mt-2 bg-primary h-screen '>
                     <div className='flex flex-col items-center '>
-                      
+
                         <h3 className=''><span>Location:</span><span className='pl-1'>{member.location}</span></h3>
                     </div>
                     <div className='mt-8 mx-2 flex flex-1 justify-between bg-gray-200  px-2'>

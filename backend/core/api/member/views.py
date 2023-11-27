@@ -12,11 +12,10 @@ from members.models import Member
 
 
 class MemberView(generics.RetrieveAPIView):
-    #authentication_classes = ()
+    # authentication_classes = ()
     # permission_classes = [IsAuthenticated]
     queryset = Member.objects.all()
     serializer_class = MemberSerializer
-    
 
     def finalize_response(self, request, response, *args, **kwargs):
         # if response.status_code == 200:

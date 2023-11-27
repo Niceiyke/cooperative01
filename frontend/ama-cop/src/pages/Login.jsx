@@ -1,8 +1,8 @@
 
 import React, { useState } from 'react';
+import { jwtDecode } from "jwt-decode";
 
-
-import { useUser } from '../hooks/useUser';
+import { useAuth } from '../hooks/useAuth';
 import { encryptData } from '../utils/encryptdycrpt';
 import { useNavigate } from 'react-router-dom';
 
@@ -24,9 +24,9 @@ const InputField = ({ label, id, type, value, onChange, placeholder, required })
 );
 
 const Login = () => {
-    const { setAccessToken } = useUser()
-    
-   const navigate = useNavigate()
+    const { setAccessToken, setRefreshToken, setUser } = useAuth()
+
+    const navigate = useNavigate()
 
 
 
@@ -60,16 +60,17 @@ const Login = () => {
             if (response.ok) {
                 const token = await response.json()
                 const access_token = token.access
-
-                //localStorage.setItem('access',access_token)
+                const refresh_token = token.refresh
 
                 encryptData('access', access_token)
+                encryptData('refresh', refresh_token)
+                const data = jwtDecode(access_token)
+                encryptData('user', data)
 
+                setUser(data)
                 setAccessToken(access_token)
+                setRefreshToken(refresh_token)
                 //console.log(access_token)
-
-
-
                 console.log('Login successful');
                 navigate('/dashboard')
             } else {

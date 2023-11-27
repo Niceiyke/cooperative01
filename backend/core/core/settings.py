@@ -142,9 +142,7 @@ AUTH_USER_MODEL = "accounts.CustomUser"
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
-#CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
-
-
+# CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
 
 
 REST_FRAMEWORK = {
@@ -159,14 +157,14 @@ REST_FRAMEWORK = {
 
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=20),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ALGORITHM": "HS256",
     "SIGNING_KEY": SECRET_KEY,
     "TOKEN_OBTAIN_SERIALIZER": "api.serializers.MyTokenObtainPairSerializer",
-    'AUTH_HEADER_TYPES': ('Bearer',),
-    'TOKEN_COOKIE_SECURE': True,
-    'TOKEN_COOKIE_HTTPONLY': True,
+    "AUTH_HEADER_TYPES": ("Bearer",),
+    "TOKEN_COOKIE_SECURE": True,
+    "TOKEN_COOKIE_HTTPONLY": True,
 }
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
