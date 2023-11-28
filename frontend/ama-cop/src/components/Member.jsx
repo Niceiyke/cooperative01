@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import useFetchGet from '../hooks/useFetchGet'
 import { useAuth } from '../hooks/useAuth'
+import avatar from '../assets/avat.jpg'
 
 function FetchMembers() {
     const auth = useAuth()
@@ -28,6 +29,12 @@ function FetchMembers() {
                 member?.id &&
                 <div className='mt-2 bg-primary h-screen '>
                     <div className='flex flex-col items-center '>
+
+                        <img
+                            src={avatar || 'default-avatar.jpg'} // Use a default avatar if no custom avatar is set
+                            alt="User Avatar"
+                            style={{ width: '100px', height: '100px', borderRadius: '50%' }}
+                        />
 
                         <h3 className=''><span>Location:</span><span className='pl-1'>{member.location}</span></h3>
                     </div>

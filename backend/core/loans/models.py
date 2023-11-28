@@ -42,3 +42,22 @@ class LoanRepayment(models.Model):
 
     def __str__(self):
         return f"{self.loan.member.user.first_name} {self.loan.member.user.last_name} Repayment - {self.amount} on {self.payment_date}"
+
+
+class VendorHomeAppliances(models.Model):
+    pass
+
+
+class HomeAppliance(models.Mode):
+    name = models.CharField(max_length=150)
+    description = models.CharField(max_length=240, null=True, blank=True)
+    vendor = models.ForeignKey(VendorHomeAppliances, on_delete=models.CASCADE)
+    price = models.PositiveIntegerField()
+    pass
+
+
+class FoodItem(models.Model):
+    name = models.CharField(max_length=150)
+    description = models.CharField(max_length=240, null=True, blank=True)
+    price = models.PositiveIntegerField()
+    pass

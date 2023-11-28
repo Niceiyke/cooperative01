@@ -7,6 +7,9 @@ import Signup from "./pages/Register"
 import LoanRequestPage from "./pages/LoanRequest"
 import { RequiredAuth } from "./components/RequiredAuth"
 import Logout from "./components/Logout"
+import ProfilePage from "./pages/profilePage"
+import ContributionPage from "./pages/ContributionPage"
+import RepaymentPage from "./pages/RepaymentPage"
 
 
 function App() {
@@ -23,6 +26,9 @@ function App() {
       <Route element={<RequiredAuth />}>
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/loan-request' element={<LoanRequestPage />} />
+        <Route path='/change-contribution' element={<ContributionPage />} />
+        <Route path='/profile' element={<ProfilePage />} />
+        <Route path='/loan-repayment' element={<RepaymentPage />} />
       </Route>
     </Routes>
 

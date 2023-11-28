@@ -11,8 +11,8 @@ function Navbar() {
             {
                 auth?.user?.user_id ? (
                     <div className=''>
-                        <Link to='#' className='p-2 hover:bg-primary-bg hover:text-gray-800' >Home</Link>
-                        <Link to='#' className='p-2 hover:bg-primary-bg hover:text-gray-800'>Profile</Link>
+                        <Link to='/' className='p-2 hover:bg-primary-bg hover:text-gray-800' >Home</Link>
+                        <Link to='/profile' className='p-2 hover:bg-primary-bg hover:text-gray-800'>Profile</Link>
                         <Link to='#' className='p-2 hover:bg-primary-bg hover:text-gray-800'>About</Link>
                         <Link to='#' className='p-2 hover:bg-primary-bg hover:text-gray-800'>Info</Link>
                         <Link to='/logout' className='p-2 hover:bg-primary-bg hover:text-gray-800'>logout</Link>

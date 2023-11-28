@@ -1,12 +1,8 @@
-
-import React, { useState } from 'react';
-import { jwtDecode } from "jwt-decode";
-
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { encryptData } from '../utils/encryptdycrpt';
-import { useNavigate } from 'react-router-dom';
 
-// InputField component
 const InputField = ({ label, id, type, value, onChange, placeholder, required }) => (
     <div className="mb-4">
         <label htmlFor={id} className="block font-medium">
@@ -23,7 +19,7 @@ const InputField = ({ label, id, type, value, onChange, placeholder, required })
     </div>
 );
 
-const Login = () => {
+function Contribution() {
     const { setAccessToken, setRefreshToken, setUser } = useAuth()
     const [error, setError] = useState()
 
@@ -94,25 +90,25 @@ const Login = () => {
     return (
         <div className="flex justify-center items-center h-screen">
             <div className="bg-slate-800 p-8 rounded shadow-md text-white w-full sm:w-96">
-                <h2 className="text-2xl font-semibold mb-4 text-center">Login</h2>
+                <h2 className="text-2xl font-semibold mb-4 text-center">Change Contribution</h2>
                 <p className='text-red-500 font-extralight text-center'>{error}</p>
                 <form onSubmit={handleLogin}>
                     <InputField
-                        label="Email"
-                        id="email"
-                        type="email"
-                        value={formData.email}
+                        label="Old Amount"
+                        id="oldamount"
+                        type="number"
+                        value={formData.amount}
                         onChange={handleChange}
-                        placeholder="Email"
+                        placeholder="Old Amount"
                         required
                     />
                     <InputField
-                        label="Password"
-                        id="password"
-                        type="password"
+                        label="New Amount"
+                        id="amount"
+                        type="number"
                         value={formData.password}
                         onChange={handleChange}
-                        placeholder="Password"
+                        placeholder="New Amount"
                         required
                     />
                     <div className="mb-6">
@@ -120,7 +116,7 @@ const Login = () => {
                             type="submit"
                             className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
                         >
-                            Log In
+                            Change
                         </button>
                     </div>
                 </form>
@@ -129,4 +125,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Contribution
