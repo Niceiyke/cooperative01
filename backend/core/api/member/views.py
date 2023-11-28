@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from managements.models import AuditLog
 
 
-from .serializers import MemberSerializer, MemberUpdateSerializer
+from .serializers import MemberSerializer, MemberUpdateSerializer,MemberUpdateContributionSerializer
 
 from members.models import Member
 
@@ -27,3 +27,8 @@ class MemberView(generics.RetrieveAPIView):
 class MemberUpdate(generics.RetrieveUpdateAPIView):
     queryset = Member.objects.all()
     serializer_class = MemberUpdateSerializer
+
+
+class MemberUpdateContribution(generics.RetrieveUpdateAPIView):
+    queryset = Member.objects.all()
+    serializer_class = MemberUpdateContributionSerializer

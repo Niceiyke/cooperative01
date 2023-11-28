@@ -6,7 +6,7 @@ import { useAuth } from './useAuth';
 import { encryptData } from '../utils/encryptdycrpt';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 
-const useFetchGet = () => {
+const useFetchPost = () => {
 
     const { accessToken, refreshToken, logout, setAccessToken, setRefreshToken } = useAuth(useContext)
     const location = useLocation()
@@ -136,4 +136,4 @@ const useFetchGet = () => {
     return callFetch
 }
 
-export default useFetchGet
+export default useFetchPost

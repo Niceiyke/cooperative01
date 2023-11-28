@@ -1,7 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { encryptData } from '../utils/encryptdycrpt';
+import useFetchGet from '../hooks/useFetchGet';
+import useFetchPost from '../hooks/useFetchPost';
+import { jwtDecode } from 'jwt-decode';
 
 const InputField = ({ label, id, type, value, onChange, placeholder, required }) => (
     <div className="mb-4">
@@ -20,10 +23,27 @@ const InputField = ({ label, id, type, value, onChange, placeholder, required })
 );
 
 function Contribution() {
-    const { setAccessToken, setRefreshToken, setUser } = useAuth()
+    const { accessToken, setAccessToken, setRefreshToken, setUser } = useAuth()
+    const user = jwtDecode(accessToken)
+    const [contribution,setContribution]=useState()
+  
+
+    const apiFetch =useFetchGet()
+    const apiPost = useFetchPost()
     const [error, setError] = useState()
 
     const navigate = useNavigate()
+
+    useEffect(()=>{
+        const fetchContribution =async ()=>{
+            const response = await apiFetch(`/member-contribution/7`)
+
+            setContribution(response.monthly_contribution)
+
+           
+        }
+        fetchContribution()
+    },[])
 
 
 
@@ -97,7 +117,7 @@ function Contribution() {
                         label="Old Amount"
                         id="oldamount"
                         type="number"
-                        value={formData.amount}
+                        value={contribution}
                         onChange={handleChange}
                         placeholder="Old Amount"
                         required

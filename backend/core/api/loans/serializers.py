@@ -1,5 +1,5 @@
-from rest_framework import serializers, status
-from loans.models import Loan, LoanType, LoanRepayment
+from rest_framework import serializers
+from loans.models import Loan, LoanType, LoanRepayment,HomeAppliance,FoodItem
 from api.services import (
     pay_loan,
     process_loan_transaction,
@@ -85,3 +85,14 @@ class LoanRepaymentSerializers(serializers.ModelSerializer):
 
         else:
             raise serializers.ValidationError(response["error"])
+
+
+class HomeApplianceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HomeAppliance
+        fields ="__all__"
+
+class FoodItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FoodItem
+        fields ="__all__"

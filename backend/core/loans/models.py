@@ -45,19 +45,35 @@ class LoanRepayment(models.Model):
 
 
 class VendorHomeAppliances(models.Model):
-    pass
+    name=models.CharField(max_length=50)
+    phone =models.CharField(max_length=11)
+
+    def __str__(self):
+        return self.name
+    
 
 
-class HomeAppliance(models.Mode):
+class HomeAppliance(models.Model):
     name = models.CharField(max_length=150)
     description = models.CharField(max_length=240, null=True, blank=True)
     vendor = models.ForeignKey(VendorHomeAppliances, on_delete=models.CASCADE)
     price = models.PositiveIntegerField()
-    pass
+    starting_date =models.DateTimeField()
+    closing_date =models.DateTimeField()
+
+    def __str__(self):
+        return self.name
+
 
 
 class FoodItem(models.Model):
     name = models.CharField(max_length=150)
     description = models.CharField(max_length=240, null=True, blank=True)
     price = models.PositiveIntegerField()
-    pass
+    unit=models.CharField(max_length=50,blank=True,null=True)
+    starting_date =models.DateTimeField()
+    closing_date =models.DateTimeField()
+
+    def __str__(self):
+        return self.name
+

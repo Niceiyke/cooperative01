@@ -20,6 +20,8 @@ urlpatterns = [
     # members urls
     path("member/<int:pk>", memberviews.MemberView.as_view()),
     path("member-update/<int:pk>", memberviews.MemberUpdate.as_view()),
+    path("member-contribution/<int:pk>", memberviews.MemberUpdateContribution.as_view()),
+
     # Transaction Urls
     path("transaction/", transactionviews.ListCreateTransaction.as_view()),
     # Loan Urls

@@ -31,3 +31,9 @@ class MemberUpdateSerializer(serializers.ModelSerializer):
             "total_contribution": {"read_only": True},
             "total_loan": {"read_only": True},
         }
+
+
+class MemberUpdateContributionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Member
+        fields = ["monthly_contribution"]

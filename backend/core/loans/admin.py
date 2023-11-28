@@ -7,3 +7,5 @@ from . import models
 admin.site.register(models.LoanType)
 admin.site.register(models.Loan)
 admin.site.register(models.LoanRepayment)
+admin.site.register(models.HomeAppliance)
+admin.site.register(models.FoodItem)
