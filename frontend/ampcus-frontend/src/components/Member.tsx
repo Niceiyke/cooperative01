@@ -1,42 +1,48 @@
-import React, { useEffect, useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
-import useFetchGet from '../hooks/useFetchGet'
-import { useAuth } from '../hooks/useAuth'
-import avatar from '../assets/avat.jpg'
+import { useQuery, QueryFunction, QueryKey } from '@tanstack/react-query';
+import useFetchGet from '../hooks/useFetchGet';
+import { useAuth } from '../hooks/useAuth';
+import avatar from '../assets/avat.jpg';
+import { Member } from '../models/models';
+
 
 function FetchMembers() {
-    const auth = useAuth()
-    const api = useFetchGet()
+    const { user } = useAuth();
+    const api = useFetchGet();
 
-    const fetchMembers = async () => {
-        const response = await api(`/member/${auth?.user?.member}`)
-        return response
-    }
+    const fetchMembers: QueryFunction<Member> = async () => {
+        const response = await api(`/member/${user?.member}`);
+        return response;
+    };
 
-    const { data: member, isLoading, isError, error } = useQuery({ queryKey: ['member'], queryFn: () => fetchMembers() })
+    const queryKey: QueryKey = ['member'];
+
+    const { data: member, isLoading, isError, error } = useQuery({
+        queryKey,
+        queryFn: fetchMembers,
+    });
 
     if (isLoading) {
-        return (<div>Loading</div>)
+        return <div>Loading</div>;
     }
 
     if (isError) {
-        return (<p>error occured {error.message}</p>)
+        return <p>Error occurred {error.message}</p>;
     }
 
     return (
         <div>
-            {
-                member?.id &&
-                <div className='mt-2 bg-primary h-screen '>
-                    <div className='flex flex-col items-center '>
-
+            {member?.id && (
+                <div className="mt-2 bg-primary h-screen ">
+                    <div className="flex flex-col items-center ">
                         <img
-                            src={avatar || 'default-avatar.jpg'} // Use a default avatar if no custom avatar is set
+                            src={avatar || 'default-avatar.jpg'}
                             alt="User Avatar"
                             style={{ width: '100px', height: '100px', borderRadius: '50%' }}
                         />
-
-                        <h3 className=''><span>Location:</span><span className='pl-1'>{member.location}</span></h3>
+                        <h3 className="">
+                            <span>Location:</span>
+                            <span className="pl-1">{member.location}</span>
+                        </h3>
                     </div>
                     <div className='mt-8 mx-2 flex flex-1 justify-between bg-gray-200  px-2'>
                         <div className='flex flex-col items-center'><h4>First Name</h4> <p>{member.user.first_name}</p></div>
@@ -53,7 +59,7 @@ function FetchMembers() {
                     <div className='mt-8 mx-2 flex justify-between bg-gray-200  px-2'>
                         <div className='flex flex-col items-center'><h4>Total Contribution</h4> <p>{member.total_contribution}</p></div>
                         <div className='flex flex-col items-center'><h4>Total Loan</h4> <p>{member.total_loan}</p></div>
-                        <div className='flex flex-col items-center'><h4>Avaliable Balance</h4> <p>{member.avaliable_balance}</p></div>
+                        <div className='flex flex-col items-center'><h4>Avaliable Balance</h4> <p>{member.available_balance}</p></div>
                     </div>
 
                     <div className="overflow-x-auto">
@@ -108,14 +114,10 @@ function FetchMembers() {
                             </tbody>
                         </table>
                     </div>
-
-
-
                 </div>
-
-            }
+            )}
         </div>
-    )
+    );
 }
 
-export default FetchMembers
+export default FetchMembers;

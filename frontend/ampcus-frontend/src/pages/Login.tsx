@@ -1,88 +1,52 @@
-import { jwtDecode } from "jwt-decode";
-
-import { useAuth } from '../hooks/useAuth';
-import { encryptData } from '../utils/encryptdycrpt';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
+import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
+import { encryptData } from '../utils/encryptdycrpt';
+import InputField from '../components/InputField';
 
-// InputField component
-const InputField = ({ label:string, id, type, value, onChange, placeholder, required }) => (
-    <div className="mb-4">
-        <label htmlFor={id} className="block font-medium">
-            {label}
-        </label>
-        <input
-            type={type}
-            id={id}
-            placeholder={placeholder}
-            value={value}
-            onChange={onChange}
-            required={required}
-        />
-    </div>
-);
+const Login: React.FC = () => {
+    const [error, setError] = useState<string | undefined>();
 
-const Login = () => {
-    const { setAccessToken, setRefreshToken, setUser } = useAuth()
-    const [error, setError] = useState()
-
-    const navigate = useNavigate()
-
-
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         email: '',
         password: '',
     });
 
-    const handleChange = (e) => {
-        setError('')
-
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setError('');
         setFormData({ ...formData, [e.target.id]: e.target.value });
     };
 
-    const handleLogin = async (e) => {
-
+    const handleLogin = async (e: FormEvent) => {
         e.preventDefault();
-
 
         try {
             const response = await fetch('http://127.0.0.1:8000/api/token/', {
-
                 method: 'POST',
-
                 headers: { 'Content-Type': 'application/json' },
-
                 credentials: 'include',
-
                 body: JSON.stringify(formData),
             });
 
             if (response.ok) {
-                const token = await response.json()
-                const access_token = token.access
-                const refresh_token = token.refresh
+                const token = await response.json();
+                const access_token = token.access;
+                const refresh_token = token.refresh;
 
-                encryptData('access', access_token)
-                encryptData('refresh', refresh_token)
-                const data = jwtDecode(access_token)
-                encryptData('user', data)
+                encryptData('access', access_token);
+                encryptData('refresh', refresh_token);
+                encryptData('user', jwtDecode(access_token));
 
-                setUser(data)
-                setAccessToken(access_token)
-                setRefreshToken(refresh_token)
+                navigate('/dashboard');
 
-                navigate('/dashboard')
-
-                console.log('Login successful')
-
+                console.log('Login successful');
             } else {
-
                 // Handle Login failure
-                setError('Incorrect email or password')
+                setError('Incorrect email or password');
                 console.error('Login failed');
-                throw new Error('some message')
-
-
+                throw new Error('some message');
             }
         } catch (error) {
             console.error('Error during Login:', error);
@@ -93,7 +57,7 @@ const Login = () => {
         <div className="flex justify-center items-center h-screen">
             <div className="bg-slate-800 p-8 rounded shadow-md text-white w-full sm:w-96">
                 <h2 className="text-2xl font-semibold mb-4 text-center">Login</h2>
-                <p className='text-red-500 font-extralight text-center'>{error}</p>
+                <p className="text-red-500 font-extralight text-center">{error}</p>
                 <form onSubmit={handleLogin}>
                     <InputField
                         label="Email"

@@ -1,20 +1,17 @@
-
-import React from 'react'
 import { useAuth } from '../hooks/useAuth'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
-import { jwtDecode } from 'jwt-decode'
 import dayjs from 'dayjs'
 
 
 
 export const RequiredAuth = () => {
-    const { accessToken } = useAuth()
+    const { user } = useAuth()
     const location = useLocation()
 
-    let isExpired
+    let isExpired: boolean
 
-    if (accessToken) {
-        const user = jwtDecode(accessToken)
+    if (user) {
+
         isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1
     }
     else {

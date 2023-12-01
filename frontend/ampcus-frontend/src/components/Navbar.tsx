@@ -1,15 +1,13 @@
-
-import React from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 
 function Navbar() {
-    const auth = useAuth()
+    const { user } = useAuth()
     return (
         <nav className='flex justify-between items-center bg-slate-900 text-primary-text p-2'>
             <h1><Link to='/'>Logo</Link></h1>
             {
-                auth?.user?.user_id ? (
+                user?.user_id ? (
                     <div className=''>
                         <Link to='/' className='p-2 hover:bg-primary-bg hover:text-gray-800' >Home</Link>
                         <Link to='/profile' className='p-2 hover:bg-primary-bg hover:text-gray-800'>Profile</Link>

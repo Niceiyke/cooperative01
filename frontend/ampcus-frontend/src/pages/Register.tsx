@@ -1,24 +1,10 @@
-
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-// InputField component
-const InputField = ({ label, id, type, value, onChange, placeholder, required }) => (
-    <div className="mb-4">
-        <label htmlFor={id} className="block font-medium">
-            {label}
-        </label>
-        <input
-            type={type}
-            id={id}
-            placeholder={placeholder}
-            value={value}
-            onChange={onChange}
-            required={required}
-        />
-    </div>
-);
+import InputField from '../components/InputField';
 
-const Signup = () => {
-    const navigate =useNavigate()
+
+const Signup: React.FC = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         first_name: '',
         last_name: '',
@@ -27,12 +13,11 @@ const Signup = () => {
         password: '',
     });
 
-    const handleChange = (e) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
     };
 
-
-    const handleSignup = async (e) => {
+    const handleSignup = async (e: FormEvent) => {
         e.preventDefault();
 
         try {
@@ -46,8 +31,7 @@ const Signup = () => {
 
             if (response.ok) {
                 // Handle successful signup
-
-                navigate('/login')
+                navigate('/login');
             } else {
                 // Handle signup failure
                 console.error('Signup failed');
@@ -87,8 +71,7 @@ const Signup = () => {
                         value={formData.email}
                         onChange={handleChange}
                         placeholder="Email"
-                        required
-                    />
+                        required />
                     <InputField
                         label="Sap Number"
                         id="sap_number"
@@ -108,7 +91,10 @@ const Signup = () => {
                         required
                     />
                     <div className="mb-6">
-                        <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
+                        <button
+                            type="submit"
+                            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+                        >
                             Register
                         </button>
                     </div>

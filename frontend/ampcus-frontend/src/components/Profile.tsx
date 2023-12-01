@@ -1,22 +1,76 @@
-// Profile.js
-import React, { useState } from 'react';
 
-const Profile = () => {
-    const [avatarUrl, setAvatarUrl] = useState(''); // You can initialize this with the user's actual avatar URL
-    const [firstName, setFirstName] = useState('John'); // Replace this with the user's actual first name
-    const [lastName, setLastName] = useState('Doe'); // Replace this with the user's actual last name
-    const [username, setUsername] = useState('johndoe'); // Replace this with the user's actual username
-    const [bio, setBio] = useState('Web Developer'); // Replace this with the user's actual bio
-    const [bankName, setBankName] = useState('Sample Bank'); // Replace this with the user's actual bank name
-    const [accountNumber, setAccountNumber] = useState('********1234'); // Replace this with the user's actual account number
-    const [email, setEmail] = useState('john.doe@example.com'); // Replace this with the user's actual email
-    const [phoneNumber, setPhoneNumber] = useState('+1 (123) 456-7890'); // Replace this with the user's actual phone number
+import React, { useReducer, ChangeEvent } from 'react';
 
-    const handleAvatarChange = (event) => {
-        // Handle avatar changes, e.g., uploading a new avatar
-        const newAvatarUrl = event.target.value; // Replace this with your actual logic to get the new avatar URL
-        setAvatarUrl(newAvatarUrl);
+interface ProfileProps { }
+
+interface ProfileState {
+    avatarUrl: string;
+    firstName: string;
+    lastName: string;
+    username: string;
+    bio: string;
+    bankName: string;
+    accountNumber: string;
+    email: string;
+    phoneNumber: string;
+}
+
+type ProfileAction =
+    | { type: 'SET_AVATAR'; payload: string }
+    | { type: 'SET_FIRST_NAME'; payload: string }
+    | { type: 'SET_LAST_NAME'; payload: string }
+    | { type: 'SET_USERNAME'; payload: string }
+    | { type: 'SET_BIO'; payload: string }
+    | { type: 'SET_BANK_NAME'; payload: string }
+    | { type: 'SET_ACCOUNT_NUMBER'; payload: string }
+    | { type: 'SET_EMAIL'; payload: string }
+    | { type: 'SET_PHONE_NUMBER'; payload: string };
+
+const initialState: ProfileState = {
+    avatarUrl: '',
+    firstName: 'John',
+    lastName: 'Doe',
+    username: 'johndoe',
+    bio: 'Web Developer',
+    bankName: 'Sample Bank',
+    accountNumber: '********1234',
+    email: 'john.doe@example.com',
+    phoneNumber: '+1 (123) 456-7890',
+};
+
+const profileReducer = (state: ProfileState, action: ProfileAction): ProfileState => {
+    switch (action.type) {
+        case 'SET_AVATAR':
+            return { ...state, avatarUrl: action.payload };
+        case 'SET_FIRST_NAME':
+            return { ...state, firstName: action.payload };
+        case 'SET_LAST_NAME':
+            return { ...state, lastName: action.payload };
+        case 'SET_USERNAME':
+            return { ...state, username: action.payload };
+        case 'SET_BIO':
+            return { ...state, bio: action.payload };
+        case 'SET_BANK_NAME':
+            return { ...state, bankName: action.payload };
+        case 'SET_ACCOUNT_NUMBER':
+            return { ...state, accountNumber: action.payload };
+        case 'SET_EMAIL':
+            return { ...state, email: action.payload };
+        case 'SET_PHONE_NUMBER':
+            return { ...state, phoneNumber: action.payload };
+        default:
+            return state;
+    }
+};
+
+const Profile: React.FC<ProfileProps> = () => {
+    const [state, dispatch] = useReducer(profileReducer, initialState);
+
+    const handleAvatarChange = (event: ChangeEvent<HTMLInputElement>) => {
+        dispatch({ type: 'SET_AVATAR', payload: event.target.value });
     };
+
+    // Create similar functions for other fields
 
     return (
         <div className="container mx-auto p-4">
@@ -61,3 +115,4 @@ const Profile = () => {
 };
 
 export default Profile;
+
