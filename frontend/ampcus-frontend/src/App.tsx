@@ -17,20 +17,22 @@ function App() {
 
 
   return (
-    <Routes>
-      <Route path='/' element={<Home />} />
-      <Route path='/login' element={<Login />} />
-      <Route path='/register' element={<Signup />} />
-      <Route path='/logout' element={<Logout />} />
-      {/*protected Routes */}
-      <Route element={<RequiredAuth />}>
-        <Route path='/dashboard' element={<Dashboard />} />
-        <Route path='/loan-request' element={<LoanRequestPage />} />
-        <Route path='/change-contribution' element={<ContributionPage />} />
-        <Route path='/profile' element={<ProfilePage />} />
-        <Route path='/loan-repayment' element={<RepaymentPage />} />
-      </Route>
-    </Routes>
+    <div className="container mx-auto">
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Signup />} />
+        <Route path='/logout' element={<Logout />} />
+        {/*protected Routes */}
+        <Route element={<RequiredAuth />}>
+          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/loan-request' element={<LoanRequestPage />} />
+          <Route path='/change-contribution' element={<ContributionPage />} />
+          <Route path='/profile' element={<ProfilePage />} />
+          <Route path='/loan-repayment' element={<RepaymentPage />} />
+        </Route>
+      </Routes>
+    </div>
 
   )
 }

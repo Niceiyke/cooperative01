@@ -1,106 +1,61 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
-import { encryptData } from '../utils/encryptdycrpt';
 import useFetchGet from '../hooks/useFetchGet';
 import useFetchPost from '../hooks/useFetchPost';
-import { jwtDecode } from 'jwt-decode';
+import { useAuth } from '../hooks/useAuth';
+import InputField from './InputField';
 
-const InputField = ({ label, id, type, value, onChange, placeholder, required }) => (
-    <div className="mb-4">
-        <label htmlFor={id} className="block font-medium">
-            {label}
-        </label>
-        <input
-            type={type}
-            id={id}
-            placeholder={placeholder}
-            value={value}
-            onChange={onChange}
-            required={required}
-        />
-    </div>
-);
+
+type  ContributionFormData = {
+    monthly_contribution: number;
+}
+
+
 
 function Contribution() {
-    const { accessToken, setAccessToken, setRefreshToken, setUser } = useAuth()
-    const user = jwtDecode(accessToken)
-    const [contribution,setContribution]=useState()
-  
 
-    const apiFetch =useFetchGet()
-    const apiPost = useFetchPost()
-    const [error, setError] = useState()
+    const {user} =useAuth()
 
-    const navigate = useNavigate()
+    const [contribution, setContribution] = useState<number>(0);
 
-    useEffect(()=>{
-        const fetchContribution =async ()=>{
-            const response = await apiFetch(`/member-contribution/7`)
+    const [formData, setFormData] = useState<ContributionFormData>({
+        monthly_contribution:0
 
-            setContribution(response.monthly_contribution)
-
-           
-        }
-        fetchContribution()
-    },[])
-
-
-
-    const [formData, setFormData] = useState({
-        email: '',
-        password: '',
     });
 
-    const handleChange = (e) => {
-        setError('')
+    const apiFetch = useFetchGet();
+    const apiPost = useFetchPost();
+    const [error, setError] = useState<string | undefined>();
 
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchContribution = async () => {
+            const response = await apiFetch(`/member-contribution/${user.member}`);
+            setContribution(response.monthly_contribution);
+        };
+
+        fetchContribution();
+    }, []);
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setError('');
         setFormData({ ...formData, [e.target.id]: e.target.value });
     };
 
-    const handleLogin = async (e) => {
-
+    const handleContribution = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/token/', {
+            const response = await apiPost(`/member-contribution/${user.member}`,'PUT',formData);
 
-                method: 'POST',
-
-                headers: { 'Content-Type': 'application/json' },
-
-                credentials: 'include',
-
-                body: JSON.stringify(formData),
-            });
-
-            if (response.ok) {
-                const token = await response.json()
-                const access_token = token.access
-                const refresh_token = token.refresh
-
-                encryptData('access', access_token)
-                encryptData('refresh', refresh_token)
-                const data = jwtDecode(access_token)
-                encryptData('user', data)
-
-                setUser(data)
-                setAccessToken(access_token)
-                setRefreshToken(refresh_token)
-
-                navigate('/dashboard')
-
-                console.log('Login successful')
+            if (response.response.ok) {
+                navigate('/dashboard');
 
             } else {
-
-                // Handle Login failure
-                setError('Incorrect email or password')
-                console.error('Login failed');
-                throw new Error('some message')
-
-
+                setError('Error Updating Your Contribution, Try Again later.');
+                console.error('Contribution Faild failed');
+                throw new Error('some message');
             }
         } catch (error) {
             console.error('Error during Login:', error);
@@ -111,8 +66,8 @@ function Contribution() {
         <div className="flex justify-center items-center h-screen">
             <div className="bg-slate-800 p-8 rounded shadow-md text-white w-full sm:w-96">
                 <h2 className="text-2xl font-semibold mb-4 text-center">Change Contribution</h2>
-                <p className='text-red-500 font-extralight text-center'>{error}</p>
-                <form onSubmit={handleLogin}>
+                <p className="text-red-500 font-extralight text-center">{error}</p>
+                <form onSubmit={handleContribution}>
                     <InputField
                         label="Old Amount"
                         id="oldamount"
@@ -124,25 +79,22 @@ function Contribution() {
                     />
                     <InputField
                         label="New Amount"
-                        id="amount"
+                        id="monthly_contribution"
                         type="number"
-                        value={formData.password}
+                        value={formData.monthly_contribution}
                         onChange={handleChange}
                         placeholder="New Amount"
                         required
                     />
                     <div className="mb-6">
-                        <button
-                            type="submit"
-                            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-                        >
-                            Change
+                        <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
+                            Contribute
                         </button>
                     </div>
                 </form>
             </div>
         </div>
     );
-};
+}
 
-export default Contribution
+export default Contribution;

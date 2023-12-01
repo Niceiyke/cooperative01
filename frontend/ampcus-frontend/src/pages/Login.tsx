@@ -35,13 +35,12 @@ const Login: React.FC = () => {
                 const access_token = token.access;
                 const refresh_token = token.refresh;
 
-                encryptData('access', access_token);
-                encryptData('refresh', refresh_token);
-                encryptData('user', jwtDecode(access_token));
+                encryptData('access', access_token)
+                encryptData('refresh', refresh_token)
+                encryptData('user', jwtDecode(access_token))
 
-                navigate('/dashboard');
+                return navigate('/dashboard');
 
-                console.log('Login successful');
             } else {
                 // Handle Login failure
                 setError('Incorrect email or password');

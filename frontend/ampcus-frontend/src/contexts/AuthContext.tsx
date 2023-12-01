@@ -1,15 +1,8 @@
 import { createContext, ReactNode, useState, Dispatch, SetStateAction } from 'react';
 import decryptData from '../utils/encryptdycrpt';
+import { User } from '../models/models';
 
-interface User {
-    email: string
-    exp: number
-    iat: number
-    jti: string
-    member: number
-    token_type: string
-    user_id: number
-}
+
 
 interface AuthContextProps {
     user: User;

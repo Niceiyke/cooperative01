@@ -1,9 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz@6..12&family=Oswald:wght@700&family=Poppins:wght@300&display=swap');
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
   /* @apply overflow-y-scroll no-scrollbar*/
+  @apply font-Public
 }
 
 @layer utilities {
@@ -25,26 +29,36 @@ body {
 }
 
 h1 {
-  @apply text-5xl font-black
+  @apply text-5xl font-black font-Public
 }
 
 h2 {
-  @apply text-3xl font-extrabold
+  @apply text-3xl font-extrabold font-Public
 }
 
 h3 {
-  @apply text-2xl font-bold
+  @apply text-2xl font-bold font-Public
 }
 
 .main {
   @apply flex flex-col h-screen p-2 items-center justify-center
 }
 
-nav {
-  @apply flex justify-between items-center bg-slate-900 text-gray-100 p-2
+.layout{
+  
 }
 
+nav {
+  @apply flex justify-between items-center p-2
+}
 
+.navbar{
+  @apply bg-blue-800  text-gray-100
+}
+
+.sidebar{
+  @apply mt-2
+}
 
 button {
   @apply rounded-lg p-4 text-lg font-bold

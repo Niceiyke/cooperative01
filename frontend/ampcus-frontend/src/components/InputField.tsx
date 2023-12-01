@@ -4,7 +4,7 @@ interface InputFieldProps {
     label: string;
     id: string;
     type: string;
-    value: string | number;
+    value: string | number| undefined;
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
     placeholder: string;
     required: boolean;

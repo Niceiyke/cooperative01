@@ -5,7 +5,7 @@ import FetchMembers from '../components/Member'
 
 function Dashboard() {
   return (
-    <div>
+    <div className='layout'>
       <Navbar />
       <SplitScreen left={Sidebar} right={FetchMembers} />
     </div>

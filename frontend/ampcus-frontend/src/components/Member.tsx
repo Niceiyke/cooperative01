@@ -32,36 +32,8 @@ function FetchMembers() {
     return (
         <div>
             {member?.id && (
-                <div className="mt-2 bg-primary h-screen ">
-                    <div className="flex flex-col items-center ">
-                        <img
-                            src={avatar || 'default-avatar.jpg'}
-                            alt="User Avatar"
-                            style={{ width: '100px', height: '100px', borderRadius: '50%' }}
-                        />
-                        <h3 className="">
-                            <span>Location:</span>
-                            <span className="pl-1">{member.location}</span>
-                        </h3>
-                    </div>
-                    <div className='mt-8 mx-2 flex flex-1 justify-between bg-gray-200  px-2'>
-                        <div className='flex flex-col items-center'><h4>First Name</h4> <p>{member.user.first_name}</p></div>
-                        <div className='flex flex-col items-center'><h4>Last Name</h4> <p>{member.user.last_name}</p></div>
-                        <div className='flex flex-col items-center'><h4>Sap Number</h4> <p>{member.user.sap_number}</p></div>
-                        <div className='flex flex-col items-center'><h4>Email</h4> <p>{member.user.email}</p></div>
-                    </div>
-                    <div className='mt-8 mx-2 flex justify-between bg-gray-200  px-2'>
-                        <div className='flex flex-col items-center'><h4>Monthly Contribution</h4> <p>{member.monthly_contribution}</p></div>
-                        <div className='flex flex-col items-center'><h4>Bank Name</h4> <p>{member.bank_name}</p></div>
-                        <div className='flex flex-col items-center'><h4>Account Number</h4> <p>{member.bank_account}</p></div>
-
-                    </div>
-                    <div className='mt-8 mx-2 flex justify-between bg-gray-200  px-2'>
-                        <div className='flex flex-col items-center'><h4>Total Contribution</h4> <p>{member.total_contribution}</p></div>
-                        <div className='flex flex-col items-center'><h4>Total Loan</h4> <p>{member.total_loan}</p></div>
-                        <div className='flex flex-col items-center'><h4>Avaliable Balance</h4> <p>{member.available_balance}</p></div>
-                    </div>
-
+                <div className=" p-4 ">
+            
                     <div className="overflow-x-auto">
                         <h3 className='text-center mt-4 mb-4'>Active Loan</h3>
                         <table className="min-w-full divide-y divide-gray-200">

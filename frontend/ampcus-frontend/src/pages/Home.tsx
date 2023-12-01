@@ -9,9 +9,6 @@ function Home() {
       <Link to='/register'><button className='rounded-lg  border-orange-500 border-2 w-32 p-4 text-lg font-bold'>Join us</button></Link>
       <p className='mt-4'> Already a member? <Link to='/login' className='pl-2'>Login</Link></p>
 
-
-
-
     </main>
   )
 }

@@ -1,17 +1,21 @@
+import React, { ReactElement } from 'react';
 
-import React from 'react'
+interface SplitScreenProps {
+  left: React.ComponentType;
+  right: React.ComponentType;
+}
 
-function SplitScreen({ left: Left, right: Right }) {
+function SplitScreen({ left: Left, right: Right }: SplitScreenProps): ReactElement {
   return (
-    <div className='flex'>
-      <div className='hidden md:block '>
+    <div className='flex gap-2'>
+      <div className='hidden md:block'>
         <Left />
       </div>
-      <div className='bg-gray-200 w-[100%] md:w-[85%]'>
+      <div className='w-[100%] mt-2'>
         <Right />
       </div>
     </div>
-  )
+  );
 }
 
-export default SplitScreen
+export default SplitScreen;
