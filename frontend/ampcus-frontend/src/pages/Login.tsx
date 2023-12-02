@@ -4,8 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { encryptData } from '../utils/encryptdycrpt';
 import InputField from '../components/InputField';
 
+
 const Login: React.FC = () => {
     const [error, setError] = useState<string | undefined>();
+    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -23,7 +25,8 @@ const Login: React.FC = () => {
         e.preventDefault();
 
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/token/', {
+            setLoading(true)
+            const response = await fetch(`${import.meta.env.VITE_APP_BASE_URL}/token/`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
@@ -38,8 +41,8 @@ const Login: React.FC = () => {
                 encryptData('access', access_token)
                 encryptData('refresh', refresh_token)
                 encryptData('user', jwtDecode(access_token))
+                navigate('/dashboard')
 
-                return navigate('/dashboard');
 
             } else {
                 // Handle Login failure
@@ -49,6 +52,9 @@ const Login: React.FC = () => {
             }
         } catch (error) {
             console.error('Error during Login:', error);
+        }
+        finally {
+            setLoading(false)
         }
     };
 
@@ -79,9 +85,10 @@ const Login: React.FC = () => {
                     <div className="mb-6">
                         <button
                             type="submit"
-                            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+                            className={`w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 ${loading ? 'cursor-not-allowed' : ''}`}
+                            disabled={loading}
                         >
-                            Log In
+                            {loading ? 'Logging In...' : 'Log In'}
                         </button>
                     </div>
                 </form>

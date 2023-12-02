@@ -2,7 +2,6 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import InputField from '../components/InputField';
 
-
 const Signup: React.FC = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
@@ -12,8 +11,11 @@ const Signup: React.FC = () => {
         sap_number: '',
         password: '',
     });
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setError('')
         setFormData({ ...formData, [e.target.id]: e.target.value });
     };
 
@@ -21,7 +23,9 @@ const Signup: React.FC = () => {
         e.preventDefault();
 
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/signup/', {
+            setLoading(true)
+
+            const response = await fetch(`${import.meta.env.VITE_APP_BASE_URL}/signup/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -34,10 +38,26 @@ const Signup: React.FC = () => {
                 navigate('/login');
             } else {
                 // Handle signup failure
-                console.error('Signup failed');
+                const errorData = await response.json();
+
+                if (errorData.email && errorData.email[0].includes('custom')) {
+                    const errorMessage = errorData.email[0].replace('custom ', '')
+                    console.log(errorMessage)
+                    setError(errorMessage);
+                    console.error('Signup failed');
+                }
+                if (errorData.sap_number && errorData.sap_number[0].includes('custom')) {
+                    const errorMessage = errorData.sap_number[0].replace('custom ', '')
+                    console.log(errorMessage)
+                    setError(errorMessage);
+                    console.error('Signup failed');
+                }
             }
         } catch (error) {
             console.error('Error during signup:', error);
+        }
+        finally {
+            setLoading(false)
         }
     };
 
@@ -45,6 +65,7 @@ const Signup: React.FC = () => {
         <div className="flex justify-center items-center h-screen">
             <div className="bg-slate-800 text-white p-8 rounded shadow-md w-full sm:w-96">
                 <h3 className="mb-4 text-center">Register</h3>
+                {error ? <p className='text-red-500 text-center'>{error}</p> : ''}
                 <form onSubmit={handleSignup}>
                     <InputField
                         label="First Name"
@@ -93,9 +114,10 @@ const Signup: React.FC = () => {
                     <div className="mb-6">
                         <button
                             type="submit"
-                            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+                            className={`w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 ${loading ? 'cursor-not-allowed' : ''}`}
+                            disabled={loading}
                         >
-                            Register
+                            {loading ? 'Signing Up...' : 'Register'}
                         </button>
                     </div>
                 </form>

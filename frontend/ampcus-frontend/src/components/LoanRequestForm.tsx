@@ -47,14 +47,13 @@ function LoanRequestForm() {
         }
 
 
-        const response = await api('/loans/', formData);
+        const response = await api('/loans/', 'POST', formData);
 
         if (response.response.status === 400 || response.response.status === 401) {
             console.log(response.error);
             setError(response.error[0]);
         } else if (response.response.status === 201) {
             console.log(response.data);
-            console.log('dataerr', response.error);
             navigate('/dashboard');
         }
     };

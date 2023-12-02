@@ -11,11 +11,11 @@ const useFetchPost = () => {
 
     const navigation = useNavigate();
 
-    const BASEURL = 'http://127.0.0.1:8000/api';
+    const BASEURL = import.meta.env.VITE_APP_BASE_URL;
 
     const NewAccessToken = async (refresh: string): Promise<string | undefined> => {
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/token/refresh/', {
+            const response = await fetch(`${BASEURL}/token/refresh/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -49,8 +49,8 @@ const useFetchPost = () => {
         let data;
 
         const response = await fetch(url2, {
-            method:method,
-            headers:customHeaders,
+            method: method,
+            headers: customHeaders,
             body: JSON.stringify(formdata),
         });
 
@@ -99,7 +99,7 @@ const useFetchPost = () => {
                 'Authorization': `Bearer ${access_token}`,
             };
 
-            const response = await originalRequest(url, method, headers,formdata);
+            const response = await originalRequest(url, method, headers, formdata);
 
 
             return response;
@@ -110,7 +110,7 @@ const useFetchPost = () => {
                 'Authorization': `Bearer ${accessToken}`,
             };
 
-            const response = await originalRequest(url, method,headers, formdata);
+            const response = await originalRequest(url, method, headers, formdata);
 
             return response;
         }
